@@ -73,12 +73,12 @@ public class MainActivity extends AppCompatActivity {
         partys.subscribe(new Consumer<List<Party>>() {
             @Override
             public void accept(List<Party> parties) throws Exception {
-                Log.d("MainActivity", "Success " + parties.get(0).getId() + "");
+                Log.d(TAG, "Success " + parties.get(0).getId() + "");
             }
         }, new Consumer<Throwable>() {
             @Override
             public void accept(Throwable throwable) throws Exception {
-                Log.d("MainActivity", "error " + throwable.getMessage());
+                Log.d(TAG, "error " + throwable.getMessage());
             }
         });
 
