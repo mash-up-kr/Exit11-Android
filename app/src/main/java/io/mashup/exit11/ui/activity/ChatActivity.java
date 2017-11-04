@@ -1,4 +1,4 @@
-package io.mashup.exit11;
+package io.mashup.exit11.ui.activity;
 
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
@@ -8,7 +8,10 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 
+import io.mashup.exit11.R;
+
 public class ChatActivity extends AppCompatActivity {
+
     DrawerLayout drawer;
     Button btn;
 
@@ -24,14 +27,15 @@ public class ChatActivity extends AppCompatActivity {
                 drawer.openDrawer(Gravity.END);
             }
         });
-        drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     }
 
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.END)) {
             drawer.closeDrawer(GravityCompat.END);
-        } else {
+        }
+        else {
             super.onBackPressed();
         }
     }
