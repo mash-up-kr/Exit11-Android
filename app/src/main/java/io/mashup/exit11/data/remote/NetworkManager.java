@@ -18,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetworkManager {
 
-    private static final String BASE_URL = "http://gangnam11.azurewebsites.net/api/";
+    private static final String BASE_URL = "http://gangnam11-backend.azurewebsites.net/api/";
 
     private static NetworkManager instance;
 
