@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">Exit11</string>
+    <string name="app_name">강남역\n11번 출구</string>
+    <string name="tag">태그</string>
+    <string name="time">시간</string>
+    <string name="price">장소</string>
+    <string name="member">인원</string>
+    <string name="add">등록</string>
 </resources>

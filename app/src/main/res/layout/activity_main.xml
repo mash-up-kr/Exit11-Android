@@ -13,10 +13,22 @@
 
     </RelativeLayout>
 
-    <FrameLayout
-        android:id="@+id/layout_content"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
 
+        <FrameLayout
+            android:id="@+id/layout_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <android.support.design.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include layout="@layout/bottom_sheet_add_promise" />
+
+        </android.support.design.widget.CoordinatorLayout>
+    </RelativeLayout>
 
 </LinearLayout>
