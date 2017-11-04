@@ -43,7 +43,6 @@ proguard/
 captures/
 
 # Intellij
-*.iml
 .idea/workspace.xml
 .idea/tasks.xml
 .idea/gradle.xml
@@ -54,9 +53,6 @@ captures/
 # Uncomment the following line if you do not want to check your keystore files in.
 #*.jks
 
-# External native build folder generated in Android Studio 2.2 and later
-.externalNativeBuild
-
 # Google Services (e.g. APIs or Firebase)
 google-services.json
 
@@ -65,16 +61,9 @@ freeline.py
 freeline/
 freeline_project_description.json
 
-.gitignore
 .idea/misc.xml
 .idea/modules.xml
 .idea/runConfigurations.xml
-app/.gitignore
-app/build.gradle
-app/libs/
-app/proguard-rules.pro
-app/src/
-build.gradle
 gradle.properties
 gradle/
 gradlew
