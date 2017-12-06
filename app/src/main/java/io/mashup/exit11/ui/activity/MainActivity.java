@@ -1,12 +1,16 @@
 package io.mashup.exit11.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -28,11 +32,28 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
+    private static final int MESSAGE_BACKKEY_TIMEOUT = 2;
+    private static final long TIMEOUT_BACKKEY_DELAY = 2000;
+    private boolean isBackPressed = false;
+
     @BindView(R.id.layout_bottom_sheet)
     ConstraintLayout clBottomSheet;
 
     ApiService apiService;
     PartyRepository repository;
+
+
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MESSAGE_BACKKEY_TIMEOUT:
+                    isBackPressed = false;
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +84,20 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (!isBackPressed) {
+            isBackPressed = true;
+            Toast.makeText(MainActivity.this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+            mHandler.sendEmptyMessageDelayed(MESSAGE_BACKKEY_TIMEOUT, TIMEOUT_BACKKEY_DELAY);
+        } else {
+            mHandler.removeMessages(MESSAGE_BACKKEY_TIMEOUT);
+            super.onBackPressed();
+        }
+
     }
 
     @Override
