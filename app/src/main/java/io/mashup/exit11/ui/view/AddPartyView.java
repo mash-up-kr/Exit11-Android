@@ -8,10 +8,12 @@ import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.mashup.exit11.R;
 import io.mashup.exit11.ui.adapter.AddPartyViewPagerAdapter;
 
@@ -41,6 +43,12 @@ public class AddPartyView extends RelativeLayout {
 
     @BindView(R.id.layout_up)
     ConstraintLayout clUp;
+
+    @BindView(R.id.button_next)
+    Button btnNext;
+
+    @BindView(R.id.button_close)
+    Button btnClose;
 
     private BottomSheetBehavior bottomSheetBehavior;
 
@@ -101,6 +109,9 @@ public class AddPartyView extends RelativeLayout {
                 }
             }
         });
+
+        // TODO: 2017. 12. 18. next button Disable
+        //        btnNext.setEnabled(false);
     }
 
     public boolean isExpanded() {
@@ -109,5 +120,10 @@ public class AddPartyView extends RelativeLayout {
 
     public void setCollapsed() {
         bottomSheetBehavior.setState(STATE_COLLAPSED);
+    }
+
+    @OnClick(R.id.button_next)
+    void onClickNextButton() {
+        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
     }
 }
