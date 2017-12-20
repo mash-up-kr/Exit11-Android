@@ -17,4 +17,7 @@
     <string name="choice_menu">먹고싶은 메뉴를 골라주세요.</string>
     <string name="close">닫기</string>
     <string name="next_step">다음 단계</string>
+    <string name="prev_step">이전단계</string>
+    <string name="add_party_hash_tag">약속에 태그를 달아주세요</string>
+    <string name="hash_tag_hint">ex) 청와대 배달치킨</string>
 </resources>
