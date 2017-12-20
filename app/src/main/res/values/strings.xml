@@ -15,6 +15,18 @@
     <string name="hint_person">몇 명과 먹고싶은지 정해주세요.</string>
     <string name="add_party">약속 등록하기</string>
     <string name="choice_menu">먹고싶은 메뉴를 골라주세요.</string>
+    <string name="choice_detail_partiy_info">구체적인 약속을 잡아주세요.</string>
+    <string name="when">언제</string>
+    <string name="where">어디서</string>
+    <string name="people">몇명과</string>
+    <string name="people_num">몇 명과 함께 만날까요?</string>
     <string name="close">닫기</string>
     <string name="next_step">다음 단계</string>
+    <string name="people_two">2명</string>
+    <string name="people_three">3명</string>
+    <string name="people_four">4명</string>
+    <string name="cancel">취소</string>
+    <string name="ok">확인</string>
+
+
 </resources>

@@ -10,12 +10,21 @@ import android.view.ViewGroup;
 
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
+import net.daum.mf.map.api.MapReverseGeoCoder;
 import net.daum.mf.map.api.MapView;
 
-import io.mashup.exit11.common.MapApiConst;
 import io.mashup.exit11.R;
+import io.mashup.exit11.common.MapApiConst;
 
-public class MapFragment extends Fragment implements MapView.MapViewEventListener, MapView.POIItemEventListener, MapView.OpenAPIKeyAuthenticationResultListener {
+public class MapFragment extends Fragment
+        implements MapView.MapViewEventListener,
+        MapView.POIItemEventListener,
+        MapView.OpenAPIKeyAuthenticationResultListener,
+        MapView.CurrentLocationEventListener,
+        MapReverseGeoCoder.ReverseGeoCodingResultListener {
+
+    private MapView mapView;
+    private MapPOIItem mCustomMarker;
 
     public static MapFragment newInstance() {
         return new MapFragment();
@@ -30,12 +39,37 @@ public class MapFragment extends Fragment implements MapView.MapViewEventListene
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        MapView mapView = new MapView(getActivity());
+        mapView = new MapView(getActivity());
         ViewGroup viewGroup = view.findViewById(R.id.map_view);
         mapView.setDaumMapApiKey(MapApiConst.DAUM_MAPS_ANDROID_APP_API_KEY);
         mapView.setMapViewEventListener(this);
         mapView.setPOIItemEventListener(this);
+        mapView.setCurrentLocationEventListener(this);
         viewGroup.addView(mapView);
+    }
+
+    private void createCustomMarker(MapView mapView, double latitude, double longitude) {
+        mCustomMarker = new MapPOIItem();
+        mCustomMarker.setItemName("");
+        mCustomMarker.setTag(1);
+        mCustomMarker.setMapPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude));
+
+        mCustomMarker.setMarkerType(MapPOIItem.MarkerType.CustomImage);
+
+        mCustomMarker.setCustomImageResourceId(R.drawable.enrollment_mapmarker);
+        mCustomMarker.setCustomImageAutoscale(false);
+        mCustomMarker.setCustomImageAnchor(0.5f, 1.0f);
+
+        mapView.addPOIItem(mCustomMarker);
+        mapView.selectPOIItem(mCustomMarker, true);
+        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude), false);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
     }
 
     @Override
@@ -45,7 +79,7 @@ public class MapFragment extends Fragment implements MapView.MapViewEventListene
 
     @Override
     public void onMapViewInitialized(MapView mapView) {
-
+        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
     }
 
     @Override
@@ -60,7 +94,23 @@ public class MapFragment extends Fragment implements MapView.MapViewEventListene
 
     @Override
     public void onMapViewSingleTapped(MapView mapView, MapPoint mapPoint) {
+        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
 
+        MapPoint.GeoCoordinate mapPointGeo = mapPoint.getMapPointGeoCoord();
+        Log.i("Zg", String.format("MapView onMapViewSingleTapped (%f,%f)", mapPointGeo.latitude, mapPointGeo.longitude));
+
+        Double latitude = mapPointGeo.latitude;
+        Double longitude = mapPointGeo.longitude;
+
+        mapView.removeAllPOIItems();
+        createCustomMarker(mapView, latitude, longitude);
+        findAddress(latitude, longitude);
+    }
+
+    private void findAddress(double latitude, double longitude) {
+        MapReverseGeoCoder mReverseGeoCoder
+                = new MapReverseGeoCoder(MapApiConst.DAUM_MAPS_ANDROID_APP_API_KEY, MapPoint.mapPointWithGeoCoord(latitude, longitude), this, getActivity());
+        mReverseGeoCoder.startFindingAddress();
     }
 
     @Override
@@ -109,5 +159,38 @@ public class MapFragment extends Fragment implements MapView.MapViewEventListene
 
     }
 
+    //CurrentLocationEventListener 관련
+    @Override
+    public void onCurrentLocationUpdate(MapView mapView, MapPoint currentLocation, float accuracyInMeters) {
+//        MapPoint.GeoCoordinate mapPointGeo = currentLocation.getMapPointGeoCoord();
+//        mapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(mapPointGeo.latitude, mapPointGeo.longitude), 3, true);
+//        Log.i("MAP_FRAGMENT", String.format("MapView onCurrentLocationUpdate (%f,%f) accuracy (%f)", mapPointGeo.latitude, mapPointGeo.longitude, accuracyInMeters));
+    }
 
+    @Override
+    public void onCurrentLocationDeviceHeadingUpdate(MapView mapView, float v) {
+
+    }
+
+    @Override
+    public void onCurrentLocationUpdateFailed(MapView mapView) {
+
+    }
+
+    @Override
+    public void onCurrentLocationUpdateCancelled(MapView mapView) {
+
+    }
+
+    //GeoCoding 관련
+    @Override
+    public void onReverseGeoCoderFoundAddress(MapReverseGeoCoder mapReverseGeoCoder, String address) {
+        mapReverseGeoCoder.toString();
+        DetailPartyInfoFragment.setLocation(address);
+    }
+
+    @Override
+    public void onReverseGeoCoderFailedToFindAddress(MapReverseGeoCoder mapReverseGeoCoder) {
+        Log.i("geocoding실패", "fail");
+    }
 }

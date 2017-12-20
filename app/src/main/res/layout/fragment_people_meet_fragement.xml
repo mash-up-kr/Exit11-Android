@@ -1,0 +1,97 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    tools:context="io.mashup.exit11.ui.fragment.PeopleMeetFragement"
+    android:orientation="vertical">
+
+    <ImageView
+        android:src="@drawable/enrollment_icon_people_un"
+        android:layout_gravity="center"
+        android:layout_marginTop="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:text="@string/people_num"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:id="@+id/dot_line_1"
+        android:src="@drawable/dot_line_1"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <SeekBar
+        android:id="@+id/people_num_seekbar"
+        android:thumb="@drawable/thumb"
+        android:progress="50"
+        android:max="100"
+        android:progressDrawable="@drawable/progress"
+        android:padding="15dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="74dp"
+        android:layout_width="186.7dp"
+        android:layout_height="6dp" />
+
+    <FrameLayout
+        android:id="@+id/number"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="21dp">
+
+        <TextView
+            android:id="@+id/two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15.3sp"
+            android:textColor="#808080"
+            android:layout_gravity="start|left"
+            android:text="@string/people_two" />
+
+        <TextView
+            android:id="@+id/three"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16.7sp"
+            android:textColor="#ae1f24"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/people_three" />
+
+        <TextView
+            android:id="@+id/four"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15.3sp"
+            android:textColor="#808080"
+            android:layout_gravity="end|right"
+            android:text="@string/people_four" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_marginTop="70dp"
+        android:layout_gravity="center"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="@string/cancel"
+            android:textSize="15sp"
+            android:textColor="#000000"
+            android:layout_gravity="right"
+            android:layout_marginRight="60dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/ok"
+            android:text="@string/ok"
+            android:textSize="15sp"
+            android:textColor="#000000"
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
+</LinearLayout>

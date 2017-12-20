@@ -5,10 +5,13 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,6 +45,12 @@ public class AddPartyView extends RelativeLayout {
     @BindView(R.id.layout_up)
     ConstraintLayout clUp;
 
+    @BindView(R.id.text01)
+    TextView title;
+
+    @BindView(R.id.choice_progress)
+    ProgressBar choiceProgress;
+
     private BottomSheetBehavior bottomSheetBehavior;
 
     public AddPartyView(Context context) {
@@ -67,9 +76,30 @@ public class AddPartyView extends RelativeLayout {
 
         FragmentActivity activity = (FragmentActivity) getContext();
         AddPartyViewPagerAdapter pagerAdapter = new AddPartyViewPagerAdapter(activity.getSupportFragmentManager());
-        viewPager.setPagingEnabled(false);
         viewPager.setAdapter(pagerAdapter);
+        viewPager.setPagingEnabled(true);
         viewPager.setCurrentItem(0);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.d("asdf", position + "");
+
+                if(position == 2) {
+                    title.setText(getResources().getString(R.string.choice_detail_partiy_info));
+                    choiceProgress.setProgress(75);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(rlBottomSheet);
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {

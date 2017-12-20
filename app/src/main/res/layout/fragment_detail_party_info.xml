@@ -1,0 +1,118 @@
+<FrameLayout
+    android:id="@+id/frame_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="io.mashup.exit11.ui.fragment.DetailPartyInfoFragment">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/when_layout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/enrollment_clock"
+                android:src="@drawable/enrollment_icon_clock"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp"
+                android:layout_width="53.3dp"
+                android:layout_height="53.3dp" />
+
+            <TextView
+                android:text="@string/when"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <io.mashup.exit11.ui.view.DetailPartyInfoView
+            android:id="@+id/when_result_layout"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <ImageView
+            android:id="@+id/dot_line_1"
+            android:src="@drawable/dot_line_1"
+            android:layout_below="@+id/when_layout"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:id="@+id/where_layout"
+            android:layout_below="@+id/dot_line_1"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/enrollment_map"
+                android:src="@drawable/enrollment_icon_map"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp"
+                android:layout_width="53.3dp"
+                android:layout_height="53.3dp" />
+
+            <TextView
+                android:text="@string/where"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <io.mashup.exit11.ui.view.DetailPartyInfoView
+            android:id="@+id/where_result_layout"
+            android:visibility="invisible"
+            android:layout_below="@id/dot_line_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <ImageView
+            android:id="@+id/dot_line_2"
+            android:src="@drawable/dot_line_1"
+            android:layout_below="@+id/where_layout"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:id="@+id/people_layout"
+            android:layout_below="@+id/dot_line_2"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_gravity="center"
+                android:id="@+id/enrollment_people"
+                android:src="@drawable/enrollment_icon_people"
+                android:layout_marginTop="12dp"
+                android:layout_width="53.3dp"
+                android:layout_height="53.3dp" />
+            <TextView
+                android:text="@string/people"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <io.mashup.exit11.ui.view.DetailPartyInfoView
+            android:id="@+id/people_result_layout"
+            android:visibility="invisible"
+            android:layout_below="@id/dot_line_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </RelativeLayout>
+
+</FrameLayout>
