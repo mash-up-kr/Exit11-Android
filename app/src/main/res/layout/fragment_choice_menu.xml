@@ -2,13 +2,17 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="283dp"
+    android:background="@android:color/white">
 
     <ImageButton
         android:id="@+id/button_pizza"
-        android:layout_width="83dp"
-        android:layout_height="83dp"
-        android:background="@drawable/ic_menu_pizza"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/menu_background"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="8dp"
+        android:src="@drawable/menu_pizza"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -16,9 +20,12 @@
 
     <ImageButton
         android:id="@+id/button_hamburger"
-        android:layout_width="83dp"
-        android:layout_height="83dp"
-        android:background="@drawable/ic_menu_hamburger"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/menu_background"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="8dp"
+        android:src="@drawable/menu_hamburger"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintLeft_toRightOf="@id/button_pizza"
@@ -27,9 +34,11 @@
 
     <ImageButton
         android:id="@+id/button_chicken"
-        android:layout_width="83dp"
-        android:layout_height="83dp"
-        android:background="@drawable/ic_menu_chicken"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/menu_background"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/menu_chicken"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toRightOf="@id/button_hamburger"
@@ -38,9 +47,12 @@
 
     <ImageButton
         android:id="@+id/button_chinese"
-        android:layout_width="83dp"
-        android:layout_height="83dp"
-        android:background="@drawable/ic_menu_chinese"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/menu_background"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="8dp"
+        android:src="@drawable/menu_chinese"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,9 +60,12 @@
 
     <ImageButton
         android:id="@+id/button_korean"
-        android:layout_width="83dp"
-        android:layout_height="83dp"
-        android:background="@drawable/ic_menu_korean"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/menu_background"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="8dp"
+        android:src="@drawable/menu_korean"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintLeft_toRightOf="@id/button_chinese"
@@ -59,9 +74,11 @@
 
     <ImageButton
         android:id="@+id/button_snackbar"
-        android:layout_width="83dp"
-        android:layout_height="83dp"
-        android:background="@drawable/ic_menu_snackbar"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/menu_background"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/menu_snackbar"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toRightOf="@id/button_korean"
@@ -70,9 +87,11 @@
 
     <ImageButton
         android:id="@+id/button_porkfeet"
-        android:layout_width="83dp"
-        android:layout_height="83dp"
-        android:background="@drawable/ic_menu_porkfeet"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/menu_background"
+        android:layout_marginRight="8dp"
+        android:src="@drawable/menu_porkfeet"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
@@ -80,9 +99,11 @@
 
     <ImageButton
         android:id="@+id/button_japanese"
-        android:layout_width="83dp"
-        android:layout_height="83dp"
-        android:background="@drawable/ic_menu_japanese"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/menu_background"
+        android:layout_marginRight="8dp"
+        android:src="@drawable/menu_japanese"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintLeft_toRightOf="@id/button_porkfeet"
@@ -91,9 +112,10 @@
 
     <ImageButton
         android:id="@+id/button_etc"
-        android:layout_width="83dp"
-        android:layout_height="83dp"
-        android:background="@drawable/ic_menu_etc"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/menu_background"
+        android:src="@drawable/menu_etc"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toRightOf="@id/button_japanese"

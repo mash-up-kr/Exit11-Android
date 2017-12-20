@@ -26,7 +26,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.activity.MainActivity" />
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:windowSoftInputMode="adjustNothing" />
+
         <activity android:name=".ui.activity.MapActivity" />
 
         <activity android:name=".ui.activity.ChatActivity" />

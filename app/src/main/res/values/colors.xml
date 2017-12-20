@@ -6,8 +6,10 @@
 
     <color name="warm_grey">#808080</color>
     <color name="silver">#dcdddd</color>
+    <color name="alpha_silver">#7fdcdddd</color>
     <color name="rouge">#ae1f24</color>
     <color name="plum">#79171c</color>
     <color name="dark_gray">#666666</color>
     <color name="greyish">#b3b3b3</color>
+    <color name="grey01">#dcdddd</color>
 </resources>
