@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
+import io.mashup.exit11.ui.activity.LoginActivity;
 import io.mashup.exit11.ui.activity.MainActivity;
 
 public class SplashActivity extends Activity {
@@ -38,8 +39,9 @@ public class SplashActivity extends Activity {
         }, SPLASH_TIME_OUT);
     }
 
+    //change
     private void startMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
     }

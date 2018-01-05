@@ -28,3 +28,8 @@
 
 # for DexGuard only
 -keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+
+# for naver
+-keep public class com.nhn.android.naverlogin.** {
+       public protected *;
+}
