@@ -58,6 +58,7 @@ public class AddPartyView extends RelativeLayout {
 //    @BindView(R.id.choice_progress)
 //    ProgressBar choiceProgress;
 
+
     @BindView(R.id.text_add_party_message)
     TextView tvAddPartyMessage;
 
@@ -101,7 +102,8 @@ public class AddPartyView extends RelativeLayout {
         tvAddPartyMessage.setVisibility(View.INVISIBLE);
 
         FragmentActivity activity = (FragmentActivity) getContext();
-//        AddPartyViewPagerAdapter pagerAdapter = new AddPartyViewPagerAdapter(activity.getSupportFragmentManager());
+        //AddPartyViewPagerAdapter pagerAdapter = new AddPartyViewPagerAdapter(activity.getSupportFragmentManager());
+
         pagerAdapter = new AddPartyViewPagerAdapter(activity.getSupportFragmentManager());
         viewPager.setPagingEnabled(false);
         viewPager.setAdapter(pagerAdapter);

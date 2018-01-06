@@ -15,7 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
         <activity
             android:name=".SplashActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
@@ -25,21 +24,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.activity.MainActivity"
             android:windowSoftInputMode="adjustNothing" />
-
         <activity android:name=".ui.activity.MapActivity" />
-
         <activity android:name=".ui.activity.ChatActivity" />
-
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="cb592ae51a317605274c0d6aa99cc67e" />
 
-
+        <activity android:name=".ui.activity.LoginActivity"></activity>
     </application>
 
 </manifest>
