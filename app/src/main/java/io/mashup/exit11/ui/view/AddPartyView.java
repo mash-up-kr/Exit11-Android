@@ -9,11 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -21,7 +16,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,11 +52,11 @@ public class AddPartyView extends RelativeLayout {
     @BindView(R.id.layout_up)
     ConstraintLayout clUp;
 
-    @BindView(R.id.text01)
-    TextView title;
-
-    @BindView(R.id.choice_progress)
-    ProgressBar choiceProgress;
+//    @BindView(R.id.text01)
+//    TextView title;
+//
+//    @BindView(R.id.choice_progress)
+//    ProgressBar choiceProgress;
 
     @BindView(R.id.text_add_party_message)
     TextView tvAddPartyMessage;
@@ -107,7 +101,7 @@ public class AddPartyView extends RelativeLayout {
         tvAddPartyMessage.setVisibility(View.INVISIBLE);
 
         FragmentActivity activity = (FragmentActivity) getContext();
-        AddPartyViewPagerAdapter pagerAdapter = new AddPartyViewPagerAdapter(activity.getSupportFragmentManager());
+//        AddPartyViewPagerAdapter pagerAdapter = new AddPartyViewPagerAdapter(activity.getSupportFragmentManager());
         pagerAdapter = new AddPartyViewPagerAdapter(activity.getSupportFragmentManager());
         viewPager.setPagingEnabled(false);
         viewPager.setAdapter(pagerAdapter);
@@ -124,8 +118,8 @@ public class AddPartyView extends RelativeLayout {
                 Log.d("asdf", position + "");
 
                 if(position == 2) {
-                    title.setText(getResources().getString(R.string.choice_detail_partiy_info));
-                    choiceProgress.setProgress(75);
+//                    title.setText(getResources().getString(R.string.choice_detail_partiy_info));
+//                    choiceProgress.setProgress(75);
                 }
             }
 
