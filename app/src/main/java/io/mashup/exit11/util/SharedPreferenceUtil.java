@@ -4,56 +4,31 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import io.reactivex.annotations.Nullable;
-
 /**
  * Created by jonghunlee on 2018. 1. 19..
  */
 
 public class SharedPreferenceUtil {
 
-    private SharedPreferences preferences;
+    private final SharedPreferences preferences;
 
-    public static SharedPreferenceUtil getInstance() {
-        return LazyHolder.INSTANCE;
+    public SharedPreferenceUtil(Context context) {
+        preferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    @Nullable
-    public String getString(Context context, String key) {
-        if (preferences == null) {
-            preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        }
-
+    public String getString(String key) {
         return preferences.getString(key, null);
     }
 
-    public void setString(Context context, String key, String value) {
-        if (preferences == null) {
-            preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        }
-
+    public void setString(String key, String value) {
         preferences.edit().putString(key, value).apply();
     }
 
-    @Nullable
-    public float getFloat(Context context, String key, float defaultValue) {
-        if (preferences == null) {
-            preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        }
-
+    public float getFloat(String key, float defaultValue) {
         return preferences.getFloat(key, defaultValue);
     }
 
-    public void setFloat(Context context, String key, float value) {
-        if (preferences == null) {
-            preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        }
-
+    public void setFloat(String key, float value) {
         preferences.edit().putFloat(key, value).apply();
-    }
-
-    private static class LazyHolder {
-
-        private static final SharedPreferenceUtil INSTANCE = new SharedPreferenceUtil();
     }
 }

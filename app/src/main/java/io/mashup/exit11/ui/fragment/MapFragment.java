@@ -28,6 +28,9 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 import io.mashup.exit11.common.Const;
 import io.mashup.exit11.util.SharedPreferenceUtil;
 
@@ -40,9 +43,19 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     private static final String TAG = MapFragment.class.getSimpleName();
     private static final int REQUEST_CHECK_LOCATION_SETTING = 2001;
 
+    @Inject
+    SharedPreferenceUtil sharedPreferenceUtil;
+
     private GoogleMap googleMap;
 
     private FusedLocationProviderClient fusedLocationClient;
+
+    @Override
+    public void onCreate(Bundle bundle) {
+        AndroidSupportInjection.inject(this);
+
+        super.onCreate(bundle);
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -64,10 +77,9 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
         googleMap.setOnCameraIdleListener(this);
 
         // 서울 시청
-        float lat = SharedPreferenceUtil.getInstance().getFloat(getActivity(), Const.LATITUDE, 37.566692f);
-        float lng = SharedPreferenceUtil.getInstance().getFloat(getActivity(), Const.LONGITUDE, 126.978416f);
+        float lat = sharedPreferenceUtil.getFloat(Const.LATITUDE, 37.566692f);
+        float lng = sharedPreferenceUtil.getFloat(Const.LONGITUDE, 126.978416f);
 
-        // TODO: 2018. 1. 19. show last save location;
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 17f));
     }
 
@@ -94,10 +106,8 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),
                 location.getLongitude()), 17f));
 
-        SharedPreferenceUtil.getInstance()
-                .setFloat(getActivity(), Const.LATITUDE, (float) location.getLatitude());
-        SharedPreferenceUtil.getInstance()
-                .setFloat(getActivity(), Const.LONGITUDE, (float) location.getLongitude());
+        sharedPreferenceUtil.setFloat(Const.LATITUDE, (float) location.getLatitude());
+        sharedPreferenceUtil.setFloat(Const.LONGITUDE, (float) location.getLongitude());
 
         fusedLocationClient.removeLocationUpdates(locationCallback);
     }

@@ -1,4 +1,4 @@
-package io.mashup.exit11;
+package io.mashup.exit11.ui.activity;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -13,6 +13,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
+import io.mashup.exit11.R;
 import io.mashup.exit11.ui.activity.MainActivity;
 
 public class SplashActivity extends Activity {
