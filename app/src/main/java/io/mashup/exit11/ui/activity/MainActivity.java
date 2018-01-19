@@ -8,14 +8,15 @@ import android.support.v7.app.AppCompatActivity;
 
 import butterknife.ButterKnife;
 import io.mashup.exit11.R;
+import io.mashup.exit11.ui.fragment.MapFragment;
 
 public class MainActivity extends AppCompatActivity {
-
-    private static final String TAG = MainActivity.class.getSimpleName();
 
     public static void start(Context context) {
         context.startActivity(new Intent(context, MainActivity.class));
     }
+
+    private MapFragment mapFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,5 +25,13 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_map);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (mapFragment != null) {
+            mapFragment.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }

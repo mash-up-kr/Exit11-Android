@@ -3,14 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Exit11.iml" filepath="$PROJECT_DIR$/Exit11.iml" />
-      <module fileurl="file://D:\git\Exit11-Android-master\Exit11-Android-master\Exit11.iml" filepath="D:\git\Exit11-Android-master\Exit11-Android-master\Exit11.iml" />
-      <module fileurl="file://D:\git\Exit11-Android-master\Exit11-Android-master\Exit11-Android.iml" filepath="D:\git\Exit11-Android-master\Exit11-Android-master\Exit11-Android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Exit11-Android.iml" filepath="$PROJECT_DIR$/Exit11-Android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Exit11-Android-master.iml" filepath="$PROJECT_DIR$/Exit11-Android-master.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://D:\git\Exit11-Android-master\Exit11-Android-master\app\app.iml" filepath="D:\git\Exit11-Android-master\Exit11-Android-master\app\app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naveridlogin_android_sdk_4.2.0/naveridlogin_android_sdk_4.2.0.iml" filepath="$PROJECT_DIR$/naveridlogin_android_sdk_4.2.0/naveridlogin_android_sdk_4.2.0.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naveridlogin_android_sdk_4.2.0/naveridlogin_android_sdk_4.2.0.iml" filepath="$PROJECT_DIR$/naveridlogin_android_sdk_4.2.0/naveridlogin_android_sdk_4.2.0.iml" />
     </modules>
   </component>
 </project>

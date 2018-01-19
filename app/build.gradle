@@ -42,23 +42,25 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
 
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.6'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.7'
 
     //glide
     implementation 'com.github.bumptech.glide:glide:4.4.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
 
+    implementation 'com.google.android.gms:play-services-maps:11.8.0'
+    implementation 'com.google.android.gms:play-services-location:11.8.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
     //naver
-    implementation project(path: ':naveridlogin_android_sdk_4.2.0')
-    def support_version = '25.3.1'
-    implementation "com.android.support:appcompat-v7:${support_version}"
-    implementation "com.android.support:support-core-utils:${support_version}"
-    implementation "com.android.support:customtabs:${support_version}"
-    implementation "com.android.support:support-v4:${support_version}"
+//    implementation project(path: ':naveridlogin_android_sdk_4.2.0')
+//    def support_version = '25.3.1'
+//    implementation "com.android.support:appcompat-v7:${support_version}"
+//    implementation "com.android.support:support-core-utils:${support_version}"
+//    implementation "com.android.support:customtabs:${support_version}"
+//    implementation "com.android.support:support-v4:${support_version}"
 
 }
