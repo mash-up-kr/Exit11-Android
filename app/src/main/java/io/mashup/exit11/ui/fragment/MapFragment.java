@@ -28,17 +28,22 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
 import io.mashup.exit11.common.Const;
+import io.mashup.exit11.data.model.Party;
+import io.mashup.exit11.presenter.map.MapPresenter;
+import io.mashup.exit11.presenter.map.MapView;
 import io.mashup.exit11.util.SharedPreferenceUtil;
 
 /**
  * Created by jonghunlee on 2018. 1. 17..
  */
 
-public class MapFragment extends SupportMapFragment implements OnMapReadyCallback, GoogleMap.OnCameraIdleListener {
+public class MapFragment extends SupportMapFragment implements MapView, OnMapReadyCallback, GoogleMap.OnCameraIdleListener {
 
     private static final String TAG = MapFragment.class.getSimpleName();
     private static final int REQUEST_CHECK_LOCATION_SETTING = 2001;
@@ -46,7 +51,11 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     @Inject
     SharedPreferenceUtil sharedPreferenceUtil;
 
+    @Inject
+    MapPresenter mapPresenter;
+
     private GoogleMap googleMap;
+
 
     private FusedLocationProviderClient fusedLocationClient;
 
@@ -60,6 +69,8 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        mapPresenter.attachView(this);
 
         getMapAsync(this);
         getCurrentLocation();
@@ -80,7 +91,10 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
         float lat = sharedPreferenceUtil.getFloat(Const.LATITUDE, 37.566692f);
         float lng = sharedPreferenceUtil.getFloat(Const.LONGITUDE, 126.978416f);
 
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 17f));
+        LatLng latLng = new LatLng(lat, lng);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f));
+
+        getParties(latLng);
     }
 
     @SuppressLint("MissingPermission")
@@ -106,10 +120,14 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),
                 location.getLongitude()), 17f));
 
-        sharedPreferenceUtil.setFloat(Const.LATITUDE, (float) location.getLatitude());
-        sharedPreferenceUtil.setFloat(Const.LONGITUDE, (float) location.getLongitude());
+        saveLocation(location.getLatitude(), location.getLongitude());
 
         fusedLocationClient.removeLocationUpdates(locationCallback);
+    }
+
+    private void saveLocation(double latitude, double longitude) {
+        sharedPreferenceUtil.setFloat(Const.LATITUDE, (float) latitude);
+        sharedPreferenceUtil.setFloat(Const.LONGITUDE, (float) longitude);
     }
 
     private void settingFail(Exception e) {
@@ -134,6 +152,25 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     public void onCameraIdle() {
         LatLng latLng = googleMap.getCameraPosition().target;
         Log.d(TAG, "onCameraIdle#latLng : " + latLng.toString());
+
+        saveLocation(latLng.latitude, latLng.longitude);
+
+        getParties(latLng);
+    }
+
+    private void getParties(LatLng latLng) {
+        mapPresenter.getParties(latLng.latitude, latLng.longitude);
+    }
+
+
+    @Override
+    public void showErrorMessage(Throwable throwable) {
+        Log.e(TAG, "showErrorMessage#" + throwable.getMessage(), throwable);
+    }
+
+    @Override
+    public void resultParties(List<Party> parties) {
+
     }
 
     @Override

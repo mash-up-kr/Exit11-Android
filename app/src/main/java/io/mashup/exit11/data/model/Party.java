@@ -1,7 +1,5 @@
 package io.mashup.exit11.data.model;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 /**
@@ -9,66 +7,71 @@ import java.util.List;
  */
 public class Party {
 
-    @SerializedName("PartyId")
-    private String id;
-
-    @SerializedName("FoodId")
-    private String foodId;
-
-    @SerializedName("Description")
-    private String desc;
-
-    @SerializedName("Coordinate")
-    private Coordinate coordinate;
-
-    @SerializedName("PartyLeader")
+    private int partyId;
+    private int foodId;
     private int partyLeaderId;
 
-    @SerializedName("TotalPeople")
-    private int totalPeople;
+    private String partyName;
+    private String meetTime;
 
-    @SerializedName("MealTime")
-    private String mealTime;
+    private float latitude;
+    private float longitude;
 
-    @SerializedName("HashTag")
-    private List<String> hashTags;
+    private int tortalPeople;
 
-    @SerializedName("Status")
-    private int status;
+    private List<String> tags;
 
-    public String getId() {
-        return id;
+    private String detail;
+
+    private String partyLeader;
+
+    private List<String> partyMembers;
+
+    public int getPartyId() {
+        return partyId;
     }
 
-    public String getFoodId() {
+    public int getFoodId() {
         return foodId;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public Coordinate getCoordinate() {
-        return coordinate;
     }
 
     public int getPartyLeaderId() {
         return partyLeaderId;
     }
 
-    public int getTotalPeople() {
-        return totalPeople;
+    public String getPartyName() {
+        return partyName;
     }
 
-    public String getMealTime() {
-        return mealTime;
+    public String getMeetTime() {
+        return meetTime;
     }
 
-    public List<String> getHashTags() {
-        return hashTags;
+    public float getLatitude() {
+        return latitude;
     }
 
-    public int getStatus() {
-        return status;
+    public float getLongitude() {
+        return longitude;
+    }
+
+    public int getTortalPeople() {
+        return tortalPeople;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public String getPartyLeader() {
+        return partyLeader;
+    }
+
+    public List<String> getPartyMembers() {
+        return partyMembers;
     }
 }

@@ -10,4 +10,6 @@ public interface Const {
 
     String LATITUDE = "LATITUDE";
     String LONGITUDE = "LONGITUDE";
+
+    int DEFAULT_MAP_DISTANCE = 8;
 }

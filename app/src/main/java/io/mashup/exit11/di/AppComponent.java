@@ -15,7 +15,7 @@ import io.mashup.exit11.App;
 
 
 @Singleton
-@Component(modules = {AndroidInjectionModule.class, AppModule.class, ActivityBuilder.class})
+@Component(modules = {AndroidInjectionModule.class, AppModule.class, ApiModule.class, ActivityBuilder.class})
 public interface AppComponent {
 
     @Component.Builder

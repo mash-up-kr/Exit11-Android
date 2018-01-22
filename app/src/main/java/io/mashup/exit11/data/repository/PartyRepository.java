@@ -2,8 +2,9 @@ package io.mashup.exit11.data.repository;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.mashup.exit11.data.model.Party;
-import io.mashup.exit11.data.remote.NetworkManager;
 import io.mashup.exit11.data.remote.api.ApiService;
 import io.reactivex.Single;
 
@@ -11,16 +12,15 @@ import io.reactivex.Single;
  * Created by jonghunlee on 2017. 11. 5..
  */
 
-public class PartyRepository {
+public class PartyRepository extends RemoteRepository {
 
-    private final ApiService service;
-
-    public PartyRepository() {
-        this.service = NetworkManager.getInstance().getService();
+    @Inject
+    public PartyRepository(ApiService service) {
+        super(service);
     }
 
-    public Single<List<Party>> getPartys() {
-        return service.getPartys();
-    }
 
+    public Single<List<Party>> getParties(double latitude, double longitude, int distance) {
+        return service.getParties(latitude, longitude, distance);
+    }
 }

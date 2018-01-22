@@ -7,7 +7,9 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.mashup.exit11.data.remote.api.ApiService;
 import io.mashup.exit11.util.SharedPreferenceUtil;
+import retrofit2.Retrofit;
 
 /**
  * Created by jonghunlee on 2018. 1. 19..
@@ -19,6 +21,12 @@ public class AppModule {
     @Singleton
     Context provideContext(Application application) {
         return application;
+    }
+
+    @Provides
+    @Singleton
+    ApiService provideApiService(Retrofit retrofit) {
+        return retrofit.create(ApiService.class);
     }
 
     @Provides
