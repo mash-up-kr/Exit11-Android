@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +21,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.mashup.exit11.R;
 import io.mashup.exit11.data.model.Menu;
+import io.mashup.exit11.ui.activity.MainActivity;
 import io.mashup.exit11.ui.adapter.AddPartyViewPagerAdapter;
 
 import static android.support.design.widget.BottomSheetBehavior.STATE_COLLAPSED;
@@ -52,11 +52,11 @@ public class AddPartyView extends RelativeLayout {
     @BindView(R.id.layout_up)
     ConstraintLayout clUp;
 
-//    @BindView(R.id.text01)
-//    TextView title;
-//
-//    @BindView(R.id.choice_progress)
-//    ProgressBar choiceProgress;
+    //    @BindView(R.id.text01)
+    //    TextView title;
+    //
+    //    @BindView(R.id.choice_progress)
+    //    ProgressBar choiceProgress;
 
 
     @BindView(R.id.text_add_party_message)
@@ -102,34 +102,10 @@ public class AddPartyView extends RelativeLayout {
         tvAddPartyMessage.setVisibility(View.INVISIBLE);
 
         FragmentActivity activity = (FragmentActivity) getContext();
-        //AddPartyViewPagerAdapter pagerAdapter = new AddPartyViewPagerAdapter(activity.getSupportFragmentManager());
-
         pagerAdapter = new AddPartyViewPagerAdapter(activity.getSupportFragmentManager());
         viewPager.setPagingEnabled(false);
         viewPager.setAdapter(pagerAdapter);
-        viewPager.setPagingEnabled(true);
         viewPager.setCurrentItem(0);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                Log.d("asdf", position + "");
-
-                if(position == 2) {
-//                    title.setText(getResources().getString(R.string.choice_detail_partiy_info));
-//                    choiceProgress.setProgress(75);
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
 
         bottomSheetBehavior = BottomSheetBehavior.from(rlBottomSheet);
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
@@ -173,6 +149,7 @@ public class AddPartyView extends RelativeLayout {
 
         setChoiceMenuSubject();
         setHashTagSubject();
+        setLocationSubject();
     }
 
     private void setHashTagSubject() {
@@ -197,19 +174,35 @@ public class AddPartyView extends RelativeLayout {
         });
     }
 
-    public boolean isExpanded() {
+    private void setLocationSubject() {
+        pagerAdapter.getLocationChoiceSubject().subscribe(isLocationChoice -> {
+            if (isLocationChoice) {
+                setBottomSheetCollapsed();
+                ((MainActivity) getContext()).setLocationChoice();
+            }
+            else {
+                setBottomSheetExpanded();
+            }
+        });
+    }
+
+    public boolean isBottomSheetExpanded() {
         return bottomSheetBehavior.getState() == STATE_EXPANDED;
     }
 
-    public void setCollapsed() {
+    public void setBottomSheetCollapsed() {
         bottomSheetBehavior.setState(STATE_COLLAPSED);
+    }
+
+    public void setBottomSheetExpanded() {
+        bottomSheetBehavior.setState(STATE_EXPANDED);
     }
 
     @OnClick(R.id.button_prev)
     void onClickPrev() {
         switch (viewPager.getCurrentItem()) {
             case 0:
-                setCollapsed();
+                setBottomSheetCollapsed();
                 break;
             case 1:
                 btnNext.setEnabled(true);

@@ -51,4 +51,9 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return fragmentDispatchingAndroidInjector;
     }
+
+    public void setLocationChoice() {
+        mapFragment.setLocationChoiceMode();
+    }
+
 }

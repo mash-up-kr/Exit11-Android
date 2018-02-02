@@ -20,23 +20,38 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import dagger.android.support.AndroidSupportInjection;
+import io.mashup.exit11.R;
 import io.mashup.exit11.common.Const;
 import io.mashup.exit11.data.model.Party;
 import io.mashup.exit11.presenter.map.MapPresenter;
 import io.mashup.exit11.presenter.map.MapView;
+import io.mashup.exit11.util.LocationChoiceObserver;
 import io.mashup.exit11.util.SharedPreferenceUtil;
 
 /**
@@ -54,10 +69,14 @@ public class MapFragment extends SupportMapFragment implements MapView, OnMapRea
     @Inject
     MapPresenter mapPresenter;
 
+    @BindView(R.id.button_choice_location)
+    ImageButton btnChoiceLocation;
+
     private GoogleMap googleMap;
 
-
     private FusedLocationProviderClient fusedLocationClient;
+
+    private boolean isChoiceLocation;
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -67,8 +86,34 @@ public class MapFragment extends SupportMapFragment implements MapView, OnMapRea
     }
 
     @Override
+    public View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle bundle) {
+        View mapView = super.onCreateView(layoutInflater, viewGroup, bundle);
+        FrameLayout layout = new FrameLayout(getActivity());
+        layout.addView(mapView,
+                new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT));
+
+        ImageButton choiceLocationButton = new ImageButton(getContext());
+        choiceLocationButton.setId(R.id.button_choice_location);
+        choiceLocationButton.setBackground(ContextCompat.getDrawable(getActivity(),
+                R.drawable.enrollment_mapmaker));
+
+        FrameLayout.LayoutParams choiceLocationButtonParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        choiceLocationButtonParams.gravity = Gravity.CENTER;
+
+        layout.addView(choiceLocationButton, choiceLocationButtonParams);
+
+        return layout;
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        ButterKnife.bind(this, view);
+
+        btnChoiceLocation.setVisibility(View.GONE);
 
         mapPresenter.attachView(this);
 
@@ -150,6 +195,10 @@ public class MapFragment extends SupportMapFragment implements MapView, OnMapRea
 
     @Override
     public void onCameraIdle() {
+        if (isChoiceLocation) {
+            return;
+        }
+
         LatLng latLng = googleMap.getCameraPosition().target;
         Log.d(TAG, "onCameraIdle#latLng : " + latLng.toString());
 
@@ -170,7 +219,9 @@ public class MapFragment extends SupportMapFragment implements MapView, OnMapRea
 
     @Override
     public void resultParties(List<Party> parties) {
-
+        for (Party party : parties) {
+            //            googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.)))
+        }
     }
 
     @Override
@@ -199,4 +250,40 @@ public class MapFragment extends SupportMapFragment implements MapView, OnMapRea
             showCurrentLocation(location);
         }
     };
+
+    public void setLocationChoiceMode() {
+        // TODO: 2018. 2. 2. All marker disable
+        isChoiceLocation = true;
+        btnChoiceLocation.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.button_choice_location)
+    void OnClickChoiceLocation() {
+        btnChoiceLocation.setVisibility(View.GONE);
+
+        Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+        LatLng latLng = googleMap.getCameraPosition().target;
+        String choiceAddress = "";
+
+        try {
+            Address address = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1).get(0);
+            Log.d(TAG, "OnClickChoiceLocation#address : " + address.toString());
+            choiceAddress = address.getAddressLine(0);
+
+            //                String s1 = address.get(0).getCountryName();        // 국가명
+            //                String s2 = address.get(0).getAdminArea();          // 시
+            //                String s3 = address.get(0).getLocality();           // 구 메인, "성남시 중원구" 인 경우 "성남시"가 들어감
+            //                String s4 = address.get(0).getSubLocality();        // 구 서브데이터  "성남시 중원구" 인 경우 "중원구"가 들어감
+            //                String s5 = address.get(0).getThoroughfare();             // 동
+            //                String s6 = address.get(0).getSubThoroughfare());         // 번지
+            //                String s7 = address.get(0).getFeatureName()());          // 번지
+            //                String s8 = address.get(0).getAddressLine(0).toString(); // 국가명 시 군 구 동 번지
+        }
+        catch (IOException e) {
+            Log.e(TAG, "OnClickChoiceLocation#getFromLocation", e);
+        }
+
+        LocationChoiceObserver.getInstance().send(choiceAddress);
+        isChoiceLocation = false;
+    }
 }

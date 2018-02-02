@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_marginTop="26dp"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="horizontal">
 
     <FrameLayout
         android:layout_width="50dp"
         android:layout_height="50dp">
+
         <ImageView
-            android:src="@drawable/clock_press_2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:src="@drawable/clock_press_2" />
+
         <ImageView
             android:id="@+id/party_info_active"
             android:layout_width="match_parent"
@@ -18,24 +21,26 @@
     </FrameLayout>
 
     <RelativeLayout
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="5.7dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5.7dp"
+        android:layout_marginTop="8dp">
+
         <TextView
             android:id="@+id/question"
-            android:textSize="10sp"
-            android:textColor="#ae1f24"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="#ae1f24"
+            android:textSize="10sp" />
+
         <TextView
             android:id="@+id/result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/question"
             android:layout_marginTop="5dp"
-            android:textSize="15sp"
             android:textColor="#000000"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:textSize="15sp" />
     </RelativeLayout>
 
 </LinearLayout>

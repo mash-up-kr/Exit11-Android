@@ -19,11 +19,14 @@ public class AddPartyViewPagerAdapter extends FragmentPagerAdapter {
     private ChoiceMenuFragment choiceMenuFragment;
     private AddHashTagFragment addHashTagFragment;
 
+    private DetailPartyInfoFragment detailPartyInfoFragment;
+
     public AddPartyViewPagerAdapter(FragmentManager fm) {
         super(fm);
 
         choiceMenuFragment = ChoiceMenuFragment.newInstance();
         addHashTagFragment = AddHashTagFragment.newInstance();
+        detailPartyInfoFragment = DetailPartyInfoFragment.newInstance();
     }
 
     @Override
@@ -33,10 +36,8 @@ public class AddPartyViewPagerAdapter extends FragmentPagerAdapter {
                 return choiceMenuFragment;
             case 1:
                 return addHashTagFragment;
-            case 2:         // TODO: 2017. 12. 13. 장소 등록
-                return DetailPartyInfoFragment.newInstance();
-            case 3:         // TODO: 2017. 12. 13. 세부 내역 등록
-                return new Fragment();
+            case 2:
+                return detailPartyInfoFragment;
         }
 
         return null;
@@ -44,7 +45,11 @@ public class AddPartyViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 4;
+        return 3;
+    }
+
+    public Observable<Boolean> getLocationChoiceSubject() {
+        return detailPartyInfoFragment.getLocationChoiceSubject();
     }
 
     public Observable<Integer> getMenuChoiceSubject() {
@@ -60,11 +65,11 @@ public class AddPartyViewPagerAdapter extends FragmentPagerAdapter {
         initHashTagFragment();
     }
 
-    public void initHashTagFragment() {
+    private void initHashTagFragment() {
         addHashTagFragment.init();
     }
 
-    public void initChoiceMenuFragment() {
+    private void initChoiceMenuFragment() {
         choiceMenuFragment.init();
     }
 }

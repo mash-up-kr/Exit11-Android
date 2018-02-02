@@ -4,21 +4,26 @@ package io.mashup.exit11.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.mashup.exit11.R;
 import io.mashup.exit11.ui.view.DetailPartyInfoView;
+import io.mashup.exit11.util.LocationChoiceObserver;
+import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
 
 public class DetailPartyInfoFragment extends Fragment {
+
+    public static DetailPartyInfoFragment newInstance() {
+        return new DetailPartyInfoFragment();
+    }
 
     @BindView(R.id.when_layout)
     LinearLayout whenLayout;
@@ -42,22 +47,7 @@ public class DetailPartyInfoFragment extends Fragment {
     private String tempStr;
     private int peopleNumber;
 
-    private static boolean mapOpenning = false;
-    private static String address;
-    private static BottomSheetBehavior behavior;
-
-    public DetailPartyInfoFragment() {}
-
-    public static DetailPartyInfoFragment newInstance() {
-        DetailPartyInfoFragment fragment = new DetailPartyInfoFragment();
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {}
-    }
+    private PublishSubject<Boolean> locationChoice = PublishSubject.create();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,9 +60,21 @@ public class DetailPartyInfoFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        LocationChoiceObserver.getInstance().getObservable().subscribe(location -> {
+
+            locationChoice.onNext(false);
+
+            whereLayout.setVisibility(View.INVISIBLE);
+            whereResult.setVisibility(View.VISIBLE);
+            whereResult.setActiveImg(R.drawable.enrollment_icon_map_active);
+            whereResult.setQuestion("어디서");
+            whereResult.setResult(location);
+        });
     }
 
-    @OnClick({R.id.when_layout, R.id.when_result_layout, R.id.where_layout, R.id.where_result_layout, R.id.people_layout, R.id.people_result_layout})
+    @OnClick({R.id.when_layout, R.id.when_result_layout, R.id.where_layout, R.id.where_result_layout,
+              R.id.people_layout, R.id.people_result_layout})
     public void detailInfoClicked(View v) {
         switch (v.getId()) {
             case R.id.when_layout:
@@ -103,9 +105,10 @@ public class DetailPartyInfoFragment extends Fragment {
                 peopleResult.setVisibility(View.VISIBLE);
                 peopleResult.setActiveImg(R.drawable.enrollment_icon_people_active);
                 peopleResult.setQuestion("몇명과");
-                peopleResult.setResult(peopleNumber+"명");
+                peopleResult.setResult(peopleNumber + "명");
             }
         });
+
         getChildFragmentManager().beginTransaction()
                 .addToBackStack(null)
                 .replace(R.id.frame_container, peopleMeetFragement)
@@ -118,38 +121,7 @@ public class DetailPartyInfoFragment extends Fragment {
      * So, daum map opened
      */
     private void setLocationOnMap() {
-        mapOpenning = true;
-
-        RelativeLayout rlBottomSheet = getActivity().findViewById(R.id.layout_bottom_sheet);
-        behavior = BottomSheetBehavior.from(rlBottomSheet);
-        behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                if(newState == BottomSheetBehavior.STATE_EXPANDED && address != null) {
-                    //결과 표시
-                    whereLayout.setVisibility(View.INVISIBLE);
-                    whereResult.setVisibility(View.VISIBLE);
-                    whereResult.setActiveImg(R.drawable.enrollment_icon_map_active);
-                    whereResult.setQuestion("어디서");
-                    whereResult.setResult(address);
-
-                    mapOpenning = false;
-                }
-            }
-
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-
-            }
-        });
-        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-    }
-
-    public static void setLocation(String adrs) {
-        if(mapOpenning == true) {
-            behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            address = adrs;
-        }
+        locationChoice.onNext(true);
     }
 
     private void setTimeDialog() {
@@ -180,5 +152,9 @@ public class DetailPartyInfoFragment extends Fragment {
                 });
             }
         });
+    }
+
+    public Observable<Boolean> getLocationChoiceSubject() {
+        return locationChoice;
     }
 }
