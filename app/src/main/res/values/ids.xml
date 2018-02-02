@@ -2,4 +2,6 @@
 <resources>
     <item name="button_choice_location"
         type="id" />
+    <item name="view_party_info"
+        type="id" />
 </resources>

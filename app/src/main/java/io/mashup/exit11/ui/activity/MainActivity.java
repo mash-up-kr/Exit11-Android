@@ -15,9 +15,12 @@ import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 import io.mashup.exit11.R;
+import io.mashup.exit11.data.model.AddParty;
+import io.mashup.exit11.presenter.main.MainPresenter;
+import io.mashup.exit11.presenter.main.MainView;
 import io.mashup.exit11.ui.fragment.MapFragment;
 
-public class MainActivity extends AppCompatActivity implements HasSupportFragmentInjector {
+public class MainActivity extends AppCompatActivity implements MainView, HasSupportFragmentInjector {
 
     public static void start(Context context) {
         context.startActivity(new Intent(context, MainActivity.class));
@@ -25,6 +28,9 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
 
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
+
+    @Inject
+    MainPresenter presenter;
 
     private MapFragment mapFragment;
 
@@ -36,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
+
+        presenter.attachView(this);
 
         mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_map);
     }
@@ -56,4 +64,13 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
         mapFragment.setLocationChoiceMode();
     }
 
+    public void finishAddParty(AddParty addParty) {
+        // post add party
+        presenter.addParty(addParty);
+    }
+
+    @Override
+    public void showErrorMessage(Throwable throwable) {
+
+    }
 }

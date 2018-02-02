@@ -14,6 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.mashup.exit11.R;
+import io.mashup.exit11.data.model.PartyDetail;
 import io.mashup.exit11.ui.view.DetailPartyInfoView;
 import io.mashup.exit11.util.LocationChoiceObserver;
 import io.reactivex.Observable;
@@ -45,9 +46,13 @@ public class DetailPartyInfoFragment extends Fragment {
 
     private StringBuilder timeStr;
     private String tempStr;
+
+    private String address;
+
     private int peopleNumber;
 
     private PublishSubject<Boolean> locationChoice = PublishSubject.create();
+    private PublishSubject<PartyDetail> partyDetail = PublishSubject.create();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,6 +67,7 @@ public class DetailPartyInfoFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         LocationChoiceObserver.getInstance().getObservable().subscribe(location -> {
+            address = location;
 
             locationChoice.onNext(false);
 
@@ -106,6 +112,8 @@ public class DetailPartyInfoFragment extends Fragment {
                 peopleResult.setActiveImg(R.drawable.enrollment_icon_people_active);
                 peopleResult.setQuestion("몇명과");
                 peopleResult.setResult(peopleNumber + "명");
+
+                partyDetail.onNext(new PartyDetail(timeStr.toString(), address, num));
             }
         });
 
@@ -156,5 +164,9 @@ public class DetailPartyInfoFragment extends Fragment {
 
     public Observable<Boolean> getLocationChoiceSubject() {
         return locationChoice;
+    }
+
+    public Observable<PartyDetail> getDetailPartySubject() {
+        return partyDetail;
     }
 }

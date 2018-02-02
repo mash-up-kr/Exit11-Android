@@ -74,4 +74,14 @@ public class Party {
     public List<String> getPartyMembers() {
         return partyMembers;
     }
+
+
+    @Override
+    public String toString() {
+        return "Party{" + "partyId=" + partyId + ", foodId=" + foodId + ", partyLeaderId=" + partyLeaderId +
+               ", partyName='" + partyName + '\'' + ", meetTime='" + meetTime + '\'' + ", latitude=" +
+               latitude + ", longitude=" + longitude + ", tortalPeople=" + tortalPeople + ", tags=" + tags +
+               ", detail='" + detail + '\'' + ", partyLeader='" + partyLeader + '\'' + ", partyMembers=" +
+               partyMembers + '}';
+    }
 }

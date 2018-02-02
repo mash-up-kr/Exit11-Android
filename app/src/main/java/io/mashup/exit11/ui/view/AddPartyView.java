@@ -20,13 +20,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.mashup.exit11.R;
+import io.mashup.exit11.data.model.AddParty;
 import io.mashup.exit11.data.model.Menu;
+import io.mashup.exit11.data.model.PartyDetail;
 import io.mashup.exit11.ui.activity.MainActivity;
 import io.mashup.exit11.ui.adapter.AddPartyViewPagerAdapter;
 
 import static android.support.design.widget.BottomSheetBehavior.STATE_COLLAPSED;
 import static android.support.design.widget.BottomSheetBehavior.STATE_EXPANDED;
-import static android.support.design.widget.BottomSheetBehavior.STATE_SETTLING;
 import static io.mashup.exit11.data.model.Menu.NONE;
 
 /**
@@ -52,13 +53,6 @@ public class AddPartyView extends RelativeLayout {
     @BindView(R.id.layout_up)
     ConstraintLayout clUp;
 
-    //    @BindView(R.id.text01)
-    //    TextView title;
-    //
-    //    @BindView(R.id.choice_progress)
-    //    ProgressBar choiceProgress;
-
-
     @BindView(R.id.text_add_party_message)
     TextView tvAddPartyMessage;
 
@@ -71,13 +65,20 @@ public class AddPartyView extends RelativeLayout {
     @BindView(R.id.button_prev)
     Button btnPrev;
 
+    @BindView(R.id.button_finish_add_party)
+    Button btnFinishAddParty;
+
     private AddPartyViewPagerAdapter pagerAdapter;
     private BottomSheetBehavior bottomSheetBehavior;
 
     private List<String> hashTags = new ArrayList<>();
 
+    private PartyDetail partyDetail;
+
     @Menu
     private int menu;
+
+    private AddParty addParty;
 
     public AddPartyView(Context context) {
         this(context, null);
@@ -111,15 +112,7 @@ public class AddPartyView extends RelativeLayout {
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                switch (newState) {
-                    case STATE_COLLAPSED:
-                        Log.d(TAG, "onStateChanged#STATE_COLLAPSED");
-                        //                        pagerAdapter.initAllFragmentData();
-                        break;
-                    case STATE_SETTLING:
-                        //                        Log.d(TAG, "onStateChanged#STATE_SETTLING");
-                        break;
-                }
+                // No Impl
             }
 
             @Override
@@ -150,6 +143,7 @@ public class AddPartyView extends RelativeLayout {
         setChoiceMenuSubject();
         setHashTagSubject();
         setLocationSubject();
+        setDetailPartySubject();
     }
 
     private void setHashTagSubject() {
@@ -186,6 +180,13 @@ public class AddPartyView extends RelativeLayout {
         });
     }
 
+    private void setDetailPartySubject() {
+        pagerAdapter.getDetailPartySubject().subscribe(partyDetail -> {
+            btnNext.setEnabled(true);
+            this.partyDetail = partyDetail;
+        });
+    }
+
     public boolean isBottomSheetExpanded() {
         return bottomSheetBehavior.getState() == STATE_EXPANDED;
     }
@@ -198,58 +199,95 @@ public class AddPartyView extends RelativeLayout {
         bottomSheetBehavior.setState(STATE_EXPANDED);
     }
 
-    @OnClick(R.id.button_prev)
-    void onClickPrev() {
-        switch (viewPager.getCurrentItem()) {
-            case 0:
-                setBottomSheetCollapsed();
-                break;
-            case 1:
-                btnNext.setEnabled(true);
-                tvAddPartyMessage.setText(R.string.choice_menu);
-                btnPrev.setText(R.string.close);
-                progressBar.setProgress(25);
-                viewPager.setCurrentItem(0);
-                break;
-            case 2:
-                progressBar.setProgress(50);
-                viewPager.setCurrentItem(1);
-                break;
-            case 3:
-                progressBar.setProgress(75);
-                viewPager.setCurrentItem(2);
-                break;
-        }
-    }
-
     @OnClick(R.id.button_next)
     void onClickNextButton() {
         switch (viewPager.getCurrentItem()) {
             case 0:
-                setHashTag();
+                setHashTagPage();
                 break;
             case 1:
-                progressBar.setProgress(75);
-                viewPager.setCurrentItem(2);
+                setDetailPartyPage();
                 break;
             case 2:
-                progressBar.setProgress(100);
-                viewPager.setCurrentItem(3);
-                break;
-            case 3:
+                setFinishAddPartyPage();
                 break;
         }
-
     }
 
-    private void setHashTag() {
+    private void setHashTagPage() {
+        progressBar.setProgress(50);
+
         btnNext.setEnabled(false);
         btnPrev.setText(R.string.prev_step);
-        progressBar.setProgress(50);
+
         tvAddPartyMessage.setText(R.string.add_party_hash_tag);
 
-        hashTags.clear();
-
         viewPager.setCurrentItem(1);
+    }
+
+    private void setDetailPartyPage() {
+        progressBar.setProgress(75);
+
+        btnNext.setEnabled(false);
+
+        tvAddPartyMessage.setText(R.string.add_party_detail);
+
+        viewPager.setCurrentItem(2);
+    }
+
+    private void setFinishAddPartyPage() {
+        this.addParty = new AddParty(menu, hashTags, partyDetail);
+
+        findViewById(R.id.view01).setVisibility(View.INVISIBLE);
+        findViewById(R.id.view02).setVisibility(View.INVISIBLE);
+
+        btnPrev.setVisibility(View.INVISIBLE);
+        btnNext.setVisibility(View.INVISIBLE);
+
+        btnFinishAddParty.setVisibility(View.VISIBLE);
+
+        progressBar.setProgress(100);
+        tvAddPartyMessage.setText(R.string.finish_add_party);
+
+        viewPager.setCurrentItem(3);
+
+        pagerAdapter.setFinishAddParty(addParty);
+    }
+
+    @OnClick(R.id.button_prev)
+    void onClickPrev() {
+        switch (viewPager.getCurrentItem()) {
+            case 0:
+                closeAddPartyView();
+                break;
+            case 1:
+                btnPrev.setText(R.string.close);
+                btnNext.setEnabled(true);
+
+                tvAddPartyMessage.setText(R.string.choice_menu);
+
+                progressBar.setProgress(25);
+                viewPager.setCurrentItem(0);
+                break;
+            case 2:
+                btnNext.setEnabled(true);
+
+                tvAddPartyMessage.setText(R.string.add_party_hash_tag);
+
+                progressBar.setProgress(50);
+                viewPager.setCurrentItem(1);
+                break;
+        }
+    }
+
+    private void closeAddPartyView() {
+        pagerAdapter.initAllFragmentData();
+        setBottomSheetCollapsed();
+    }
+
+    @OnClick(R.id.button_finish_add_party)
+    void onClickFinishAddParty() {
+        ((MainActivity) getContext()).finishAddParty(addParty);
+        closeAddPartyView();
     }
 }

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#B2000000">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bottom_main_background"
+        android:layout_gravity="center"
+        android:layout_marginBottom="64dp"
+        android:layout_marginLeft="33dp"
+        android:layout_marginRight="33dp"
+        android:layout_marginTop="64dp">
+
+        <ImageView
+            android:id="@+id/image_menu"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="14dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/menu_chicken" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/food_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="293dp">
+
+        </android.support.v4.view.ViewPager>
+
+        <TextView
+            android:id="@+id/text_hash_tag"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/info_dot"
+            android:drawablePadding="13dp"
+            android:ellipsize="end"
+            android:layout_marginLeft="130dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="17dp"
+            android:maxLines="1"
+            android:textColor="@android:color/black"
+            android:textSize="10sp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/food_view_pager"
+            tools:text="#간장 치킨 # 양념친킨 " />
+
+        <TextView
+            android:id="@+id/text_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/info_dot"
+            android:drawablePadding="13dp"
+            android:ellipsize="end"
+            android:layout_marginLeft="130dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="35dp"
+            android:maxLines="1"
+            android:textColor="@android:color/black"
+            android:textSize="10sp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/food_view_pager"
+            tools:text="언제 어디 몇월 몇시" />
+
+        <TextView
+            android:id="@+id/text_address"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/info_dot"
+            android:drawablePadding="13dp"
+            android:ellipsize="end"
+            android:layout_marginLeft="130dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="53dp"
+            android:maxLines="2"
+            android:textColor="@android:color/black"
+            android:textSize="10sp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/food_view_pager"
+            tools:text="주소 주소 주소 주소 주소 주소 주소 주소 " />
+
+        <View
+            android:id="@+id/view01"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:background="@color/greyish"
+            app:layout_constraintBottom_toTopOf="@+id/button_close"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_pager" />
+
+        <Button
+            android:id="@+id/button_close"
+            android:layout_width="0dp"
+            android:layout_height="43dp"
+            android:background="@drawable/add_party_button_background"
+            android:text="@string/close"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/view02" />
+
+        <View
+            android:id="@+id/view02"
+            android:layout_width="0.5dp"
+            android:layout_height="43dp"
+            android:background="@color/greyish"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/button_close"
+            app:layout_constraintRight_toLeftOf="@+id/button_join" />
+
+        <Button
+            android:id="@+id/button_join"
+            android:layout_width="0dp"
+            android:layout_height="43dp"
+            android:background="@drawable/add_party_button_background"
+            android:text="@string/join_party"
+            android:textColor="@color/add_party_button_text_color"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/view02"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+</FrameLayout>

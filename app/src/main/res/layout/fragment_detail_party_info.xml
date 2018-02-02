@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/when_layout"
             android:layout_marginTop="15dp"
-            android:src="@drawable/dot_line_1" />
+            android:src="@drawable/dot_line" />
 
         <LinearLayout
             android:id="@+id/where_layout"
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/where_layout"
             android:layout_marginTop="15dp"
-            android:src="@drawable/dot_line_1" />
+            android:src="@drawable/dot_line" />
 
         <LinearLayout
             android:id="@+id/people_layout"

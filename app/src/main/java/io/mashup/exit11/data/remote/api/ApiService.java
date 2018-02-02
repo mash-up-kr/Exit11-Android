@@ -3,7 +3,7 @@ package io.mashup.exit11.data.remote.api;
 import java.util.List;
 
 import io.mashup.exit11.data.model.Party;
-import io.reactivex.Single;
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
@@ -14,6 +14,6 @@ import retrofit2.http.Query;
 public interface ApiService {
 
     @GET("Party")
-    Single<List<Party>> getParties(@Query("latitude") double latitude, @Query("longitude") double longitude,
-                                   @Query("distance") int distance);
+    Observable<List<Party>> getParties(@Query("latitude") double latitude, @Query("longitude") double longitude,
+                                       @Query("distance") int distance);
 }

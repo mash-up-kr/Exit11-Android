@@ -14,12 +14,18 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -37,6 +43,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -51,14 +58,26 @@ import io.mashup.exit11.common.Const;
 import io.mashup.exit11.data.model.Party;
 import io.mashup.exit11.presenter.map.MapPresenter;
 import io.mashup.exit11.presenter.map.MapView;
+import io.mashup.exit11.ui.view.PartyInfoView;
 import io.mashup.exit11.util.LocationChoiceObserver;
+import io.mashup.exit11.util.PxUtil;
 import io.mashup.exit11.util.SharedPreferenceUtil;
+
+import static io.mashup.exit11.data.model.Menu.CHICKEN;
+import static io.mashup.exit11.data.model.Menu.CHINESE;
+import static io.mashup.exit11.data.model.Menu.ETC;
+import static io.mashup.exit11.data.model.Menu.HAMBURGER;
+import static io.mashup.exit11.data.model.Menu.JAPANESE;
+import static io.mashup.exit11.data.model.Menu.KOREAN;
+import static io.mashup.exit11.data.model.Menu.PIZZA;
+import static io.mashup.exit11.data.model.Menu.PORK_FEET;
+import static io.mashup.exit11.data.model.Menu.SNACK_BAR;
 
 /**
  * Created by jonghunlee on 2018. 1. 17..
  */
 
-public class MapFragment extends SupportMapFragment implements MapView, OnMapReadyCallback, GoogleMap.OnCameraIdleListener {
+public class MapFragment extends SupportMapFragment implements MapView, OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnCameraIdleListener {
 
     private static final String TAG = MapFragment.class.getSimpleName();
     private static final int REQUEST_CHECK_LOCATION_SETTING = 2001;
@@ -72,7 +91,12 @@ public class MapFragment extends SupportMapFragment implements MapView, OnMapRea
     @BindView(R.id.button_choice_location)
     ImageButton btnChoiceLocation;
 
+    @BindView(R.id.view_party_info)
+    PartyInfoView partyInfoView;
+
     private GoogleMap googleMap;
+
+    private List<Marker> markers = new ArrayList<>();
 
     private FusedLocationProviderClient fusedLocationClient;
 
@@ -104,6 +128,14 @@ public class MapFragment extends SupportMapFragment implements MapView, OnMapRea
 
         layout.addView(choiceLocationButton, choiceLocationButtonParams);
 
+        PartyInfoView partyInfoView = new PartyInfoView(getContext());
+        partyInfoView.setId(R.id.view_party_info);
+        FrameLayout.LayoutParams partyInfoViewParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        choiceLocationButtonParams.gravity = Gravity.CENTER;
+
+        layout.addView(partyInfoView, partyInfoViewParams);
+
         return layout;
     }
 
@@ -114,6 +146,7 @@ public class MapFragment extends SupportMapFragment implements MapView, OnMapRea
         ButterKnife.bind(this, view);
 
         btnChoiceLocation.setVisibility(View.GONE);
+        partyInfoView.setVisibility(View.GONE);
 
         mapPresenter.attachView(this);
 
@@ -130,6 +163,7 @@ public class MapFragment extends SupportMapFragment implements MapView, OnMapRea
         googleMap.getUiSettings().setZoomGesturesEnabled(false);
         googleMap.getUiSettings().setRotateGesturesEnabled(false);
 
+        googleMap.setOnMarkerClickListener(this);
         googleMap.setOnCameraIdleListener(this);
 
         // 서울 시청
@@ -139,7 +173,7 @@ public class MapFragment extends SupportMapFragment implements MapView, OnMapRea
         LatLng latLng = new LatLng(lat, lng);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f));
 
-        getParties(latLng);
+        //        getParties(latLng);
     }
 
     @SuppressLint("MissingPermission")
@@ -211,7 +245,6 @@ public class MapFragment extends SupportMapFragment implements MapView, OnMapRea
         mapPresenter.getParties(latLng.latitude, latLng.longitude);
     }
 
-
     @Override
     public void showErrorMessage(Throwable throwable) {
         Log.e(TAG, "showErrorMessage#" + throwable.getMessage(), throwable);
@@ -220,8 +253,59 @@ public class MapFragment extends SupportMapFragment implements MapView, OnMapRea
     @Override
     public void resultParties(List<Party> parties) {
         for (Party party : parties) {
-            //            googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.)))
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(new LatLng(party.getLatitude(), party.getLongitude()));
+
+            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmap(party.getFoodId())));
+            Marker marker = googleMap.addMarker(markerOptions);
+            marker.setTag(party);
+
+            markers.add(marker);
         }
+    }
+
+    private Bitmap getMarkerBitmap(int foodId) {
+        Drawable drawable = null;
+        switch (foodId) {
+            case PIZZA:
+                drawable = getResources().getDrawable(R.drawable.menu_pizza);
+                break;
+            case HAMBURGER:
+                drawable = getResources().getDrawable(R.drawable.menu_hamburger);
+                break;
+            case CHICKEN:
+                drawable = getResources().getDrawable(R.drawable.menu_chicken);
+                break;
+            case CHINESE:
+                drawable = getResources().getDrawable(R.drawable.menu_chinese);
+                break;
+            case KOREAN:
+                drawable = getResources().getDrawable(R.drawable.menu_korean);
+                break;
+            case SNACK_BAR:
+                drawable = getResources().getDrawable(R.drawable.menu_snackbar);
+                break;
+            case PORK_FEET:
+                drawable = getResources().getDrawable(R.drawable.menu_porkfeet);
+                break;
+            case JAPANESE:
+                drawable = getResources().getDrawable(R.drawable.menu_japanese);
+                break;
+            case ETC:
+                drawable = getResources().getDrawable(R.drawable.menu_etc);
+                break;
+        }
+
+        if (drawable == null) {
+            return null;
+        }
+
+        BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+        Bitmap bitmap = bitmapDrawable.getBitmap();
+
+        int size = (int) PxUtil.convertDpToPx(50f);
+
+        return Bitmap.createScaledBitmap(bitmap, size, size, false);
     }
 
     @Override
@@ -252,7 +336,8 @@ public class MapFragment extends SupportMapFragment implements MapView, OnMapRea
     };
 
     public void setLocationChoiceMode() {
-        // TODO: 2018. 2. 2. All marker disable
+        showAllMarker(false);
+
         isChoiceLocation = true;
         btnChoiceLocation.setVisibility(View.VISIBLE);
     }
@@ -261,12 +346,37 @@ public class MapFragment extends SupportMapFragment implements MapView, OnMapRea
     void OnClickChoiceLocation() {
         btnChoiceLocation.setVisibility(View.GONE);
 
-        Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
         LatLng latLng = googleMap.getCameraPosition().target;
-        String choiceAddress = "";
+        String address = getLocationAddress(latLng.latitude, latLng.longitude);
 
+        LocationChoiceObserver.getInstance().send(address);
+
+        isChoiceLocation = false;
+
+        showAllMarker(true);
+    }
+
+    private void showAllMarker(boolean isShow) {
+        for (Marker marker : markers) {
+            marker.setVisible(isShow);
+        }
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        Party party = (Party) marker.getTag();
+
+        partyInfoView.setPartyInfo(party);
+        partyInfoView.setVisibility(View.VISIBLE);
+
+        return false;
+    }
+
+    private String getLocationAddress(double latitude, double longitude) {
+        Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+        String choiceAddress = "";
         try {
-            Address address = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1).get(0);
+            Address address = geocoder.getFromLocation(latitude, longitude, 1).get(0);
             Log.d(TAG, "OnClickChoiceLocation#address : " + address.toString());
             choiceAddress = address.getAddressLine(0);
 
@@ -283,7 +393,6 @@ public class MapFragment extends SupportMapFragment implements MapView, OnMapRea
             Log.e(TAG, "OnClickChoiceLocation#getFromLocation", e);
         }
 
-        LocationChoiceObserver.getInstance().send(choiceAddress);
-        isChoiceLocation = false;
+        return choiceAddress;
     }
 }
