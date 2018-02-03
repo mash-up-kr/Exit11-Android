@@ -11,14 +11,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.mashup.exit11.R;
+import io.mashup.exit11.data.model.HashTag;
 import io.mashup.exit11.data.model.Party;
+import io.mashup.exit11.ui.activity.MainActivity;
 
 import static io.mashup.exit11.data.model.Menu.CHICKEN;
 import static io.mashup.exit11.data.model.Menu.CHINESE;
@@ -78,14 +79,14 @@ public class PartyInfoView extends RelativeLayout {
         setAddress(party.getLatitude(), party.getLongitude());
     }
 
-    private void setHashTag(List<String> tags) {
+    private void setHashTag(HashTag tags) {
         if (tags == null) {
             return;
         }
 
         StringBuilder builder = new StringBuilder();
 
-        for (String tag : tags) {
+        for (String tag : tags.getTags()) {
             builder.append("#" + tag + " ");
         }
 
@@ -127,7 +128,7 @@ public class PartyInfoView extends RelativeLayout {
     private void setAddress(float latitude, float longitude) {
         Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
         String choiceAddress = "";
-        
+
         try {
             Address address = geocoder.getFromLocation(latitude, longitude, 1).get(0);
             Log.d(TAG, "OnClickChoiceLocation#address : " + address.toString());
@@ -143,6 +144,7 @@ public class PartyInfoView extends RelativeLayout {
     @OnClick(R.id.button_close)
     void onClickClose() {
         setVisibility(View.GONE);
+        ((MainActivity) getContext()).showAddPartyView(true);
     }
 
     @OnClick(R.id.button_join)

@@ -58,6 +58,7 @@ import io.mashup.exit11.common.Const;
 import io.mashup.exit11.data.model.Party;
 import io.mashup.exit11.presenter.map.MapPresenter;
 import io.mashup.exit11.presenter.map.MapView;
+import io.mashup.exit11.ui.activity.MainActivity;
 import io.mashup.exit11.ui.view.PartyInfoView;
 import io.mashup.exit11.util.LocationChoiceObserver;
 import io.mashup.exit11.util.PxUtil;
@@ -368,6 +369,8 @@ public class MapFragment extends SupportMapFragment implements MapView, OnMapRea
 
         partyInfoView.setPartyInfo(party);
         partyInfoView.setVisibility(View.VISIBLE);
+
+        ((MainActivity) getActivity()).showAddPartyView(false);
 
         return false;
     }

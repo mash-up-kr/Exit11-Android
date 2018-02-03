@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
@@ -19,6 +21,7 @@ import io.mashup.exit11.data.model.AddParty;
 import io.mashup.exit11.presenter.main.MainPresenter;
 import io.mashup.exit11.presenter.main.MainView;
 import io.mashup.exit11.ui.fragment.MapFragment;
+import io.mashup.exit11.ui.view.AddPartyView;
 
 public class MainActivity extends AppCompatActivity implements MainView, HasSupportFragmentInjector {
 
@@ -31,6 +34,9 @@ public class MainActivity extends AppCompatActivity implements MainView, HasSupp
 
     @Inject
     MainPresenter presenter;
+
+    @BindView(R.id.view_add_party)
+    AddPartyView addPartyView;
 
     private MapFragment mapFragment;
 
@@ -73,4 +79,9 @@ public class MainActivity extends AppCompatActivity implements MainView, HasSupp
     public void showErrorMessage(Throwable throwable) {
 
     }
+
+    public void showAddPartyView(boolean isShow) {
+        addPartyView.setVisibility(isShow ? View.VISIBLE : View.INVISIBLE);
+    }
+
 }

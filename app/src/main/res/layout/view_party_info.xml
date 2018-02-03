@@ -30,9 +30,14 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/food_view_pager"
             android:layout_width="match_parent"
-            android:layout_height="293dp">
+            android:layout_height="293dp" />
 
-        </android.support.v4.view.ViewPager>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="293dp"
+            android:gravity="center"
+            android:text="이미지"
+            android:textSize="34sp" />
 
         <TextView
             android:id="@+id/text_hash_tag"

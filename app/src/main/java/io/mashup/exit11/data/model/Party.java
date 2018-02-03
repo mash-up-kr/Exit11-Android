@@ -19,7 +19,7 @@ public class Party {
 
     private int tortalPeople;
 
-    private List<String> tags;
+    private HashTag tags;
 
     private String detail;
 
@@ -59,7 +59,7 @@ public class Party {
         return tortalPeople;
     }
 
-    public List<String> getTags() {
+    public HashTag getTags() {
         return tags;
     }
 
