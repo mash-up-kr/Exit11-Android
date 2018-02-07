@@ -64,6 +64,7 @@ public class AddHashTagFragment extends Fragment {
                     if (tv.getText().length() == 0) {
                         return false;
                     }
+
                     if (adapter.getItemCount() == 3) {
                         return false;
                     }

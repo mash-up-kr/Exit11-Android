@@ -7,4 +7,9 @@ package io.mashup.exit11.common;
 public interface Const {
 
     String HASH_TAG = "# ";
+
+    String LATITUDE = "LATITUDE";
+    String LONGITUDE = "LONGITUDE";
+
+    int DEFAULT_MAP_DISTANCE = 8;
 }

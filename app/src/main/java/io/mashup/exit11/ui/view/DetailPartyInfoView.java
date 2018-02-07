@@ -46,8 +46,6 @@ public class DetailPartyInfoView extends FrameLayout {
     private void init(AttributeSet attrs) {
         View view = inflate(getContext(), R.layout.view_detail_party_info, this);
         ButterKnife.bind(this, view);
-
-
     }
 
     public void setActiveImg(int img) {

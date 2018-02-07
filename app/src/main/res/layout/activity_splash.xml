@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/splash_image"
-    tools:context="io.mashup.exit11.SplashActivity">
+    tools:context="io.mashup.exit11.ui.activity.SplashActivity">
 
     <ImageView
         android:id="@+id/splash_imageView"

@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
+        android:name=".App"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,26 +16,36 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
+        <!--<activity-->
+        <!--android:name=".ui.activity.SplashActivity"-->
+        <!--android:theme="@android:style/Theme.NoTitleBar.Fullscreen">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.MAIN" />-->
+
+        <!--<category android:name="android.intent.category.LAUNCHER" />-->
+        <!--</intent-filter>-->
+        <!--</activity>-->
+
+        <!--<activity-->
+        <!--android:name=".ui.activity.MainActivity"-->
+        <!--android:windowSoftInputMode="adjustNothing" />-->
+
         <activity
-            android:name=".SplashActivity"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            android:name=".ui.activity.MainActivity"
+            android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.activity.MainActivity"
-            android:windowSoftInputMode="adjustNothing" />
-        <activity android:name=".ui.activity.MapActivity" />
+
         <activity android:name=".ui.activity.ChatActivity" />
 
         <meta-data
-            android:name="com.kakao.sdk.AppKey"
-            android:value="cb592ae51a317605274c0d6aa99cc67e" />
-
-        <activity android:name=".ui.activity.LoginActivity"></activity>
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCO2IJrx91huvpSztEypBA6XS0gzCqskhA" />
     </application>
 
 </manifest>

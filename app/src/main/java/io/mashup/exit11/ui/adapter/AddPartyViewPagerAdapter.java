@@ -4,9 +4,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import io.mashup.exit11.data.model.AddParty;
+import io.mashup.exit11.data.model.PartyDetail;
 import io.mashup.exit11.ui.fragment.AddHashTagFragment;
 import io.mashup.exit11.ui.fragment.ChoiceMenuFragment;
 import io.mashup.exit11.ui.fragment.DetailPartyInfoFragment;
+import io.mashup.exit11.ui.fragment.FinishAddPartyFragment;
 import io.reactivex.Observable;
 
 
@@ -18,12 +21,16 @@ public class AddPartyViewPagerAdapter extends FragmentPagerAdapter {
 
     private ChoiceMenuFragment choiceMenuFragment;
     private AddHashTagFragment addHashTagFragment;
+    private DetailPartyInfoFragment detailPartyInfoFragment;
+    private FinishAddPartyFragment finishAddPartyFragment;
 
     public AddPartyViewPagerAdapter(FragmentManager fm) {
         super(fm);
 
         choiceMenuFragment = ChoiceMenuFragment.newInstance();
         addHashTagFragment = AddHashTagFragment.newInstance();
+        detailPartyInfoFragment = DetailPartyInfoFragment.newInstance();
+        finishAddPartyFragment = FinishAddPartyFragment.newInstance();
     }
 
     @Override
@@ -33,10 +40,10 @@ public class AddPartyViewPagerAdapter extends FragmentPagerAdapter {
                 return choiceMenuFragment;
             case 1:
                 return addHashTagFragment;
-            case 2:         // TODO: 2017. 12. 13. 장소 등록
-                return DetailPartyInfoFragment.newInstance();
-            case 3:         // TODO: 2017. 12. 13. 세부 내역 등록
-                return new Fragment();
+            case 2:
+                return detailPartyInfoFragment;
+            case 3:
+                return finishAddPartyFragment;
         }
 
         return null;
@@ -47,6 +54,10 @@ public class AddPartyViewPagerAdapter extends FragmentPagerAdapter {
         return 4;
     }
 
+    public Observable<Boolean> getLocationChoiceSubject() {
+        return detailPartyInfoFragment.getLocationChoiceSubject();
+    }
+
     public Observable<Integer> getMenuChoiceSubject() {
         return choiceMenuFragment.getMenuChoiceSubject();
     }
@@ -55,16 +66,24 @@ public class AddPartyViewPagerAdapter extends FragmentPagerAdapter {
         return addHashTagFragment.getHashTagSubject();
     }
 
+    public Observable<PartyDetail> getDetailPartySubject() {
+        return detailPartyInfoFragment.getDetailPartySubject();
+    }
+
     public void initAllFragmentData() {
         initChoiceMenuFragment();
         initHashTagFragment();
     }
 
-    public void initHashTagFragment() {
+    private void initHashTagFragment() {
         addHashTagFragment.init();
     }
 
-    public void initChoiceMenuFragment() {
+    private void initChoiceMenuFragment() {
         choiceMenuFragment.init();
+    }
+
+    public void setFinishAddParty(AddParty addParty) {
+        finishAddPartyFragment.setFinishAddParty(addParty);
     }
 }

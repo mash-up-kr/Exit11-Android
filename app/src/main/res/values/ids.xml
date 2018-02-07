@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="button_choice_location"
+        type="id" />
+    <item name="view_party_info"
+        type="id" />
+</resources>

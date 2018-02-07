@@ -1,26 +1,46 @@
 package io.mashup.exit11.data.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import io.mashup.exit11.data.model.AddParty;
 import io.mashup.exit11.data.model.Party;
-import io.mashup.exit11.data.remote.NetworkManager;
 import io.mashup.exit11.data.remote.api.ApiService;
-import io.reactivex.Single;
+import io.reactivex.Observable;
 
 /**
  * Created by jonghunlee on 2017. 11. 5..
  */
+public class PartyRepository extends RemoteRepository {
 
-public class PartyRepository {
+    private List<Party> parties = new ArrayList<>();
 
-    private final ApiService service;
-
-    public PartyRepository() {
-        this.service = NetworkManager.getInstance().getService();
+    @Inject
+    public PartyRepository(ApiService service) {
+        super(service);
     }
 
-    public Single<List<Party>> getPartys() {
-        return service.getPartys();
+    public Observable<List<Party>> getParties(double latitude, double longitude, int distance) {
+        return service.getParties(latitude, longitude, distance)
+                .flatMapIterable(it -> it)
+                .filter(newParty -> {
+                    for (Party party : this.parties) {
+                        if (party.getPartyId() == newParty.getPartyId()) {
+                            return false;
+                        }
+                    }
+
+                    this.parties.add(newParty);
+                    
+                    return true;
+                })
+                .toList()
+                .toObservable();
     }
 
+    public Observable<Object> addParty(AddParty addParty) {
+        return null;
+    }
 }

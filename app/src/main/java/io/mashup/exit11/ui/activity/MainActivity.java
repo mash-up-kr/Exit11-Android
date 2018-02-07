@@ -1,84 +1,87 @@
 package io.mashup.exit11.ui.activity;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
+import android.view.View;
 
+import javax.inject.Inject;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.AndroidInjection;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 import io.mashup.exit11.R;
+import io.mashup.exit11.data.model.AddParty;
+import io.mashup.exit11.presenter.main.MainPresenter;
+import io.mashup.exit11.presenter.main.MainView;
 import io.mashup.exit11.ui.fragment.MapFragment;
-import io.mashup.exit11.util.CommonUtil;
-import io.mashup.exit11.util.PermissionUtils;
+import io.mashup.exit11.ui.view.AddPartyView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainView, HasSupportFragmentInjector {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    public static void start(Context context) {
+        context.startActivity(new Intent(context, MainActivity.class));
+    }
 
-    private static final int MESSAGE_BACKKEY_TIMEOUT = 2;
-    private static final long TIMEOUT_BACKKEY_DELAY = 2000;
-    private boolean isBackPressed = false;
+    @Inject
+    DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
+
+    @Inject
+    MainPresenter presenter;
+
+    @BindView(R.id.view_add_party)
+    AddPartyView addPartyView;
+
+    private MapFragment mapFragment;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
-        if (PermissionUtils.checkPermissions(this,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION) && CommonUtil.isNetworkWorking(this)) {
 
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.layout_content, MapFragment.newInstance())
-                    .commit();
-        }
-        else {
-            PermissionUtils.requestPermissions(this,
-                    0,
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION);
+        presenter.attachView(this);
+
+        mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_map);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (mapFragment != null) {
+            mapFragment.onActivityResult(requestCode, resultCode, data);
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case 0:
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_content, MapFragment.newInstance())
-                        .commit();
-        }
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return fragmentDispatchingAndroidInjector;
+    }
+
+    public void setLocationChoice() {
+        mapFragment.setLocationChoiceMode();
+    }
+
+    public void finishAddParty(AddParty addParty) {
+        // post add party
+        presenter.addParty(addParty);
     }
 
     @Override
-    public void onBackPressed() {
+    public void showErrorMessage(Throwable throwable) {
 
-        if (!isBackPressed) {
-            isBackPressed = true;
-            Toast.makeText(this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
-            backKeyHandler.sendEmptyMessageDelayed(MESSAGE_BACKKEY_TIMEOUT, TIMEOUT_BACKKEY_DELAY);
-        }
-        else {
-            backKeyHandler.removeMessages(MESSAGE_BACKKEY_TIMEOUT);
-            super.onBackPressed();
-        }
     }
 
-    @SuppressLint("HandlerLeak")
-    private Handler backKeyHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MESSAGE_BACKKEY_TIMEOUT:
-                    isBackPressed = false;
-                    break;
-            }
-        }
-    };
+    public void showAddPartyView(boolean isShow) {
+        addPartyView.setVisibility(isShow ? View.VISIBLE : View.INVISIBLE);
+    }
+
 }

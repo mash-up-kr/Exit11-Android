@@ -1,118 +1,117 @@
-<FrameLayout
-    android:id="@+id/frame_container"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frame_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="io.mashup.exit11.ui.fragment.DetailPartyInfoFragment">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/when_layout"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/enrollment_clock"
-                android:src="@drawable/enrollment_icon_clock"
+                android:layout_width="53.3dp"
+                android:layout_height="53.3dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="12dp"
-                android:layout_width="53.3dp"
-                android:layout_height="53.3dp" />
+                android:src="@drawable/enrollment_icon_clock" />
 
             <TextView
-                android:text="@string/when"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_marginTop="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:text="@string/when" />
         </LinearLayout>
 
         <io.mashup.exit11.ui.view.DetailPartyInfoView
             android:id="@+id/when_result_layout"
-            android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/dot_line_1"
-            android:src="@drawable/dot_line_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/when_layout"
             android:layout_marginTop="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:src="@drawable/dot_line" />
 
         <LinearLayout
             android:id="@+id/where_layout"
-            android:layout_below="@+id/dot_line_1"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dot_line_1"
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/enrollment_map"
-                android:src="@drawable/enrollment_icon_map"
+                android:layout_width="53.3dp"
+                android:layout_height="53.3dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="12dp"
-                android:layout_width="53.3dp"
-                android:layout_height="53.3dp" />
+                android:src="@drawable/enrollment_icon_map" />
 
             <TextView
-                android:text="@string/where"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_marginTop="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:text="@string/where" />
         </LinearLayout>
 
         <io.mashup.exit11.ui.view.DetailPartyInfoView
             android:id="@+id/where_result_layout"
-            android:visibility="invisible"
-            android:layout_below="@id/dot_line_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:layout_below="@id/dot_line_1"
+            android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/dot_line_2"
-            android:src="@drawable/dot_line_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/where_layout"
             android:layout_marginTop="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:src="@drawable/dot_line" />
 
         <LinearLayout
             android:id="@+id/people_layout"
-            android:layout_below="@+id/dot_line_2"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dot_line_2"
+            android:orientation="vertical">
+
             <ImageView
-                android:layout_gravity="center"
                 android:id="@+id/enrollment_people"
-                android:src="@drawable/enrollment_icon_people"
-                android:layout_marginTop="12dp"
                 android:layout_width="53.3dp"
-                android:layout_height="53.3dp" />
+                android:layout_height="53.3dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/enrollment_icon_people" />
+
             <TextView
-                android:text="@string/people"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_marginTop="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:text="@string/people" />
         </LinearLayout>
 
         <io.mashup.exit11.ui.view.DetailPartyInfoView
             android:id="@+id/people_result_layout"
-            android:visibility="invisible"
-            android:layout_below="@id/dot_line_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:layout_below="@id/dot_line_2"
+            android:visibility="invisible" />
     </RelativeLayout>
 
 </FrameLayout>
