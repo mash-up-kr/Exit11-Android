@@ -6,7 +6,6 @@ import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -117,8 +116,6 @@ public class AddPartyView extends RelativeLayout {
 
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                Log.d(TAG, "onSlide#slideOffset : " + slideOffset);
-
                 clUp.setAlpha(1f - slideOffset);
 
                 if (slideOffset > 0.8f) {

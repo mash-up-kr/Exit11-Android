@@ -367,12 +367,14 @@ public class MapFragment extends SupportMapFragment implements MapView, OnMapRea
     public boolean onMarkerClick(Marker marker) {
         Party party = (Party) marker.getTag();
 
-        partyInfoView.setPartyInfo(party);
+        Log.d(TAG, "onMarkerClick#party id : " + party.getPartyId());
+
         partyInfoView.setVisibility(View.VISIBLE);
+        partyInfoView.setPartyInfo(party);
 
         ((MainActivity) getActivity()).showAddPartyView(false);
 
-        return false;
+        return true;       // 마커의 기본 동작 방지
     }
 
     private String getLocationAddress(double latitude, double longitude) {
