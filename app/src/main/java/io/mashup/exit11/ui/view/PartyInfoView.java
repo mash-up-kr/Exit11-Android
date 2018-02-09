@@ -20,6 +20,9 @@ import io.mashup.exit11.R;
 import io.mashup.exit11.data.model.HashTag;
 import io.mashup.exit11.data.model.Party;
 import io.mashup.exit11.ui.activity.MainActivity;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 import static io.mashup.exit11.data.model.Menu.CHICKEN;
 import static io.mashup.exit11.data.model.Menu.CHINESE;
@@ -126,19 +129,25 @@ public class PartyInfoView extends RelativeLayout {
     }
 
     private void setAddress(float latitude, float longitude) {
-        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-        String choiceAddress = "";
 
-        try {
-            Address address = geocoder.getFromLocation(latitude, longitude, 1).get(0);
-            Log.d(TAG, "OnClickChoiceLocation#address : " + address.toString());
-            choiceAddress = address.getAddressLine(0);
-        }
-        catch (IOException e) {
-            Log.e(TAG, "OnClickChoiceLocation#getFromLocation", e);
-        }
+        Observable.<String>create(emitter -> {
+            Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
 
-        tvAddress.setText(choiceAddress);
+            try {
+                Address address = geocoder.getFromLocation(latitude, longitude, 1).get(0);
+                Log.d(TAG, "OnClickChoiceLocation#address : " + address.toString());
+                emitter.onNext(address.getAddressLine(0));
+            }
+            catch (IOException e) {
+                Log.e(TAG, "OnClickChoiceLocation#getFromLocation", e);
+                emitter.onError(e);
+            }
+
+            emitter.onComplete();
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(address -> tvAddress.setText(address),
+                        throwable -> Log.e(TAG, "setAddress#error", throwable));
     }
 
     @OnClick(R.id.button_close)
